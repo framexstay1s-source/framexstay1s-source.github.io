@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Биография Андрея</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #f5f6fb;
+      background: #07090f;
+      display: flex; align-items: center; justify-content: center;
+      padding: 38px 16px;
+      position: relative; overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    :root { --a1: #9fd0ff; --a2: #2d7dff; --glow: rgba(45,125,255,.40); }
+
+    .bg { position: fixed; inset: 0; z-index: -2; overflow: hidden;
+      background:
+        radial-gradient(120% 90% at 18% -5%, #10173d 0%, transparent 55%),
+        linear-gradient(165deg, #0b0f22 0%, #0a0c18 55%, #07080f 100%);
+    }
+    .blob { position: absolute; border-radius: 50%; filter: blur(85px); opacity: .48; will-change: transform; }
+    .blob.b1 { width: 480px; height: 480px; left: -140px; top: -120px; background: radial-gradient(circle, var(--a2), transparent 70%); animation: drift 16s ease-in-out infinite alternate; }
+    .blob.b2 { width: 520px; height: 520px; right: -160px; top: 8%; background: radial-gradient(circle, #7a4dff, transparent 70%); animation: drift 21s ease-in-out infinite alternate-reverse; }
+    .blob.b3 { width: 460px; height: 460px; left: 6%; bottom: -180px; background: radial-gradient(circle, #2dd4ff, transparent 70%); opacity: .3; animation: drift 19s ease-in-out infinite alternate; }
+    .blob.b4 { width: 420px; height: 420px; right: 22%; bottom: -140px; background: radial-gradient(circle, var(--a2), transparent 70%); opacity: .26; animation: drift 24s ease-in-out infinite alternate-reverse; }
+    @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(46px,-34px) scale(1.14); } }
+
+    .glass {
+      background: linear-gradient(150deg, rgba(255,255,255,.17), rgba(255,255,255,.055) 42%, rgba(255,255,255,.10));
+      border: 1px solid rgba(255,255,255,.22);
+      box-shadow: 0 24px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.35), inset 0 -1px 0 rgba(255,255,255,.06);
+      backdrop-filter: blur(30px) saturate(1.7);
+      -webkit-backdrop-filter: blur(30px) saturate(1.7);
+    }
+
+    .back-button {
+      position: fixed; top: 22px; left: 22px; z-index: 50;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 18px; border-radius: 999px;
+      color: rgba(255,255,255,.92); text-decoration: none;
+      font-weight: 700; font-size: 14px;
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+    .back-button:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 26px 60px rgba(0,0,0,.5), 0 0 26px var(--glow), inset 0 1px 0 rgba(255,255,255,.4); }
+
+    .card {
+      width: 100%; max-width: 900px;
+      border-radius: 36px;
+      padding: 32px;
+      position: relative; overflow: hidden;
+    }
+    .top { position: relative; display: flex; align-items: center; gap: 26px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,.14); }
+    .avatar-box {
+      width: 150px; height: 150px; flex: 0 0 150px;
+      border-radius: 30px; padding: 3px;
+      background: linear-gradient(135deg, var(--a1), var(--a2));
+      box-shadow: 0 14px 32px rgba(0,0,0,.42), 0 0 26px var(--glow);
+    }
+    .avatar-box img { width: 100%; height: 100%; object-fit: cover; border-radius: 27px; display: block; border: 4px solid rgba(8,10,18,.9); cursor: pointer; }
+    h1 { font-size: 50px; line-height: .98; margin-bottom: 12px; font-weight: 800; letter-spacing: -1.6px; }
+    h1 .role {
+      display: inline-block;
+      background: linear-gradient(100deg, #fff 0%, var(--a1) 55%, var(--a2) 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .small { color: rgba(255,255,255,.68); line-height: 1.55; max-width: 560px; font-size: 15.5px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .tag {
+      padding: 7px 13px; border-radius: 999px;
+      background: rgba(255,255,255,.09);
+      border: 1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.82);
+      font-size: 13px; font-weight: 600;
+    }
+    .info { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .item {
+      position: relative;
+      background: rgba(255,255,255,.065);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 20px;
+      padding: 15px 17px;
+      transition: .2s ease; overflow: hidden;
+    }
+    .item::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--a1), var(--a2)); opacity: .85; }
+    .item:hover { background: rgba(255,255,255,.11); transform: translateY(-2px); border-color: rgba(255,255,255,.28); box-shadow: 0 10px 26px rgba(0,0,0,.28); }
+    .iname { color: rgba(255,255,255,.55); font-size: 12.5px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .8px; font-weight: 700; }
+    .text { font-size: 16px; line-height: 1.45; font-weight: 600; }
+    .wide { grid-column: 1 / -1; }
+    .quote { background: linear-gradient(150deg, rgba(255,255,255,.12), rgba(255,255,255,.04)); }
+    .quote .text { font-weight: 500; color: rgba(255,255,255,.9); }
+    #discordSync { cursor: pointer; }
+    .copy-hint { margin-left: 8px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.5); }
+
+    @media (max-width: 720px) {
+      body { padding: 22px 10px; }
+      .card { padding: 22px; border-radius: 28px; }
+      .top { flex-direction: column; text-align: center; }
+      h1 { font-size: 38px; }
+      .info { grid-template-columns: 1fr; }
+      .tags { justify-content: center; }
+      .back-button { top: 12px; left: 12px; padding: 10px 14px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div>
+  </div>
+
+  <a class="back-button glass" href="../">← Профили</a>
+
+  <div class="card glass">
+    <div class="top">
+      <div class="avatar-box"><img src="../assets/andrey-avatar.jpg" alt="Аватар Андрея" title="Попробуй 5 раз 🤫"></div>
+      <div>
+        <h1>Андрей<br><span class="role">Генеральный директор</span></h1>
+        <p class="small">Небольшая биография: основная информация, ники, любимые фильмы, книги и игры.</p>
+        <div class="tags"><span class="tag">2009andrey2611R5</span><span class="tag">Хоккей</span><span class="tag">Minecraft</span></div>
+      </div>
+    </div>
+    <div class="info">
+      <div class="item"><div class="iname">Возраст</div><div class="text">16 лет</div></div>
+      <div class="item"><div class="iname">Дата рождения</div><div class="text">26.11.2009</div></div>
+      <div class="item"><div class="iname">Ник в Minecraft</div><div class="text">2009andrey2611R5</div></div>
+      <div class="item" id="discordSync" role="button" tabindex="0" title="Нажми, чтобы скопировать ник">
+        <div class="iname">Ник в Discord</div>
+        <div class="text">2009andrey2611r5 <span class="copy-hint">⧉ копировать</span></div>
+      </div>
+      <div class="item"><div class="iname">Дата прихода в команду</div><div class="text">23.03.2024</div></div>
+      <div class="item"><div class="iname">Должность в команде</div><div class="text">Генеральный директор</div></div>
+      <div class="item"><div class="iname">Лучшие друзья</div><div class="text">Артём, Дианочка</div></div>
+      <div class="item"><div class="iname">Любимая книга</div><div class="text">«Бегущий в лабиринте»</div></div>
+      <div class="item"><div class="iname">Любимые фильмы</div><div class="text">«Бегущий в лабиринте», «Человек-паук»</div></div>
+      <div class="item"><div class="iname">Любимый сериал</div><div class="text">«Молодёжка»</div></div>
+      <div class="item"><div class="iname">Любимые актёры</div><div class="text">Дилан О’Брайен, Том Холланд</div></div>
+      <div class="item wide"><div class="iname">Любимые игры</div><div class="text">Minecraft, Raft, NHL 9, LEGO Star Wars: The Skywalker Saga</div></div>
+      <div class="item wide quote"><div class="iname">Любимая цитата</div><div class="text">«Не знаю, свяжете ли вы свою дальнейшую жизнь с хоккеем или нет, но я здесь, чтобы сделать команду, и я её сделаю, с вами или без вас...»</div></div>
+    </div>
+  </div>
+
+  <script>
+    function showToast(msg) {
+      let t = document.getElementById('funToast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = 'funToast';
+        t.style.cssText = 'position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(20px);z-index:300;padding:14px 22px;border-radius:999px;font-weight:800;font-size:14px;color:#fff;background:linear-gradient(150deg,rgba(255,255,255,.18),rgba(255,255,255,.05)),rgba(12,14,24,.72);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 18px 45px rgba(0,0,0,.5);opacity:0;transition:.3s ease;max-width:82vw;text-align:center;';
+        document.body.appendChild(t);
+      }
+      t.textContent = msg;
+      requestAnimationFrame(() => { t.style.opacity = '1'; t.style.transform = 'translateX(-50%) translateY(0)'; });
+      clearTimeout(t._h);
+      t._h = setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(20px)'; }, 2600);
+    }
+
+    function confettiBurst() {
+      const cv = document.createElement('canvas');
+      cv.width = innerWidth; cv.height = innerHeight;
+      cv.style.cssText = 'position:fixed;inset:0;z-index:200;pointer-events:none;';
+      document.body.appendChild(cv);
+      const ctx = cv.getContext('2d');
+      const colors = ['#9fd0ff', '#ffc39f', '#ffb1e8', '#cbb2ff', '#ffffff'];
+      const ps = Array.from({ length: 150 }, () => ({
+        x: innerWidth / 2, y: innerHeight / 2.2,
+        vx: (Math.random() - .5) * 14, vy: -Math.random() * 13 - 3,
+        s: Math.random() * 8 + 4, c: colors[(Math.random() * colors.length) | 0],
+        r: Math.random() * Math.PI, vr: (Math.random() - .5) * .3
+      }));
+      let t = 0;
+      (function tick() {
+        t++;
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        let alive = false;
+        for (const p of ps) {
+          p.vy += .35; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+          if (p.y < cv.height + 20) alive = true;
+          ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+          ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 2, p.s, p.s * .6);
+          ctx.restore();
+        }
+        if (alive && t < 240) requestAnimationFrame(tick); else cv.remove();
+      })();
+    }
+
+    // 5 кликов по аватару = прикол
+    let avatarClicks = 0;
+    const LOL = ['Генеральный директор на связи 📋', 'Хоккей — это жизнь 🏒', 'Миссия выполнена 💅'];
+    const avatarImg = document.querySelector('.avatar-box img');
+    if (avatarImg) {
+      avatarImg.addEventListener('click', () => {
+        avatarClicks++;
+        if (avatarClicks >= 5) {
+          avatarClicks = 0;
+          confettiBurst();
+          showToast(LOL[(Math.random() * LOL.length) | 0]);
+        }
+      });
+    }
+
+    // Клик по Discord-нику = скопировать
+    const dsItem = document.getElementById('discordSync');
+    if (dsItem) {
+      const copyNick = async () => {
+        try {
+          await navigator.clipboard.writeText('2009andrey2611r5');
+          showToast('⧉ Скопирован Discord-ник: 2009andrey2611r5');
+        } catch (e) { showToast('Discord: 2009andrey2611r5'); }
+      };
+      dsItem.addEventListener('click', copyNick);
+      dsItem.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copyNick(); } });
+    }
+  </script>
+
+</body>
+</html>
